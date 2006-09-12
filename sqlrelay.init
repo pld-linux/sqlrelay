@@ -32,7 +32,7 @@ start() {
 		launched=0
 		for connid in `grep -v ^# /etc/sqlrelay/sqlrelay.instances`; do
 			show "Launching instance with id '%s':" ${connid}
-			sqlr-start -id ${connid} 0<&- 1>&- 2>&-
+			daemon sqlr-start -id ${connid}
 			RETVAL=$?
 			[ $RETVAL -eq 0 ] && ok || fail
 			launched=1
