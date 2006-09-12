@@ -1,9 +1,9 @@
 #
 # Conditional build:
-%bcond_with	perl	# build Perl API
-%bcond_with	python	# build python API
-%bcond_with	php	# build PHP module
-%bcond_with	mysql	# build MySQL connector
+%bcond_without	perl	# Don't build Perl api
+%bcond_without	python	# Don't build Python api
+%bcond_without	php	# Don't build PHP api
+%bcond_without	mysql	# Don't build MySQL connection
 #
 Summary:	Persistent database connection system
 Name:		sqlrelay
@@ -15,11 +15,15 @@ Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
 # Source0-md5:	4628782233e548a1436c6149f913fd89
 Source1:	%{name}.init
 Patch0:		%{name}-perl.patch
+Patch1:		%{name}-ac.patch
 URL:		http://sqlrelay.sourceforge.net
-BuildRequires:	mysql-devel
-BuildRequires:	php-devel >= 4:5:0
-BuildRequires:	python >= 1:2.3
-BuildRequires:	readline >= 4.1
+BuildRequires:	autoconf
+BuildRequires:	libtool
+%{?with_mysql:BuildRequires:	mysql-devel}
+BuildRequires:	ncurses-devel
+%{?with_php:BuildRequires:	php-devel >= 4:5:0}
+%{?with_python:BuildRequires:	python}
+BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rudiments-devel >= 0.28.1
 Requires(post,postun):	/sbin/ldconfig
@@ -126,8 +130,13 @@ Documentation for SQLRelay.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
 %configure \
 	--disable-gtk \
 	--disable-db2 \
@@ -146,8 +155,19 @@ Documentation for SQLRelay.
 	--disable-ruby \
 	--disable-zope \
 	--%{!?with_python:dis}%{?with_python:en}able-python \
-	--%{!?with_mysql:dis}%{?with_mysql:en}able-mysql \
-	--%{!?with_php:dis}%{?with_php:en}able-php \
+%if %{with mysql}
+	--enable-mysql \
+	--with-mysql-prefix=/usr \
+%else
+	--disable-mysql \
+%endif
+%if %{with php}
+	--enable-php \
+	--with-php-ext-dir=%{phpextdir} \
+	--with-pear-db-dir=%{php_pear_dir}/DB \
+%else
+	--disable-php \
+%endif
 %if %{with perl}
 	--enable-perl \
 	--with-perl-site-arch=%{perl_vendorarch} \
