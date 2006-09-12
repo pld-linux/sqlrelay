@@ -1,5 +1,6 @@
 #
 # Conditional build:
+%bcond_without	gtk	# GTK frontend
 # Database options:
 # ================
 %bcond_with	db2	# DB2 connection
@@ -21,13 +22,13 @@
 %bcond_without	php	# PHP API
 %bcond_without	python	# Python API
 %bcond_without	ruby	# Ruby API
-%bcond_without	tcl		# TCL API
-%bcond_without	zope	# Zope API
+%bcond_with	tcl		# TCL API
+%bcond_with	zope	# Zope API
 #
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.27
+Release:	0.33
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -36,10 +37,10 @@ Source1:	%{name}.init
 Source2:	%{name}.conf
 Patch0:		%{name}-perl.patch
 Patch1:		%{name}-ac.patch
+Patch2:		%{name}-defaults.patch
 URL:		http://sqlrelay.sourceforge.net
-%{?with_ruby:BuildRequires: ruby-devel}
-%{?with_tcl:BuildRequires: tcl-devel}
 BuildRequires:	autoconf
+%{?with_gtk:BuildRequires: gtk+-devel}
 BuildRequires:	libtool
 %{?with_mysql:BuildRequires:	mysql-devel}
 BuildRequires:	ncurses-devel
@@ -48,7 +49,9 @@ BuildRequires:	ncurses-devel
 %{?with_python:BuildRequires:	python-devel}
 BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
+%{?with_ruby:BuildRequires: ruby-devel}
 BuildRequires:	rudiments-devel >= 0.28.1
+%{?with_tcl:BuildRequires: tcl-devel}
 %{?with_odbc:BuildRequires: unixODBC-devel}
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
@@ -244,6 +247,14 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 %description -n python-%{name}
 SQL Relay modules for Python.
 
+%package -n ruby-DBD-SQLRelay
+Summary:	SQL Relay modules for Ruby
+Group:		Development/Languages
+Requires:	%{name}-client-runtime = %{version}-%{release}
+
+%description -n ruby-DBD-SQLRelay
+SQL Relay modules for Ruby.
+
 %package doc
 Summary:	Documentation for SQLRelay
 Group:		Documentation
@@ -255,6 +266,7 @@ Documentation for SQLRelay.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
@@ -262,22 +274,22 @@ Documentation for SQLRelay.
 %{__autoconf}
 %{__autoheader}
 %configure \
-	--disable-gtk \
-	%{!?without_db2:--disable-db2} \
-	%{!?without_freetds:--disable-freetds} \
-	%{!?without_interbase:--disable-interbase} \
+	%{!?with_gtk:--disable-gtk} \
+	%{!?with_db2:--disable-db2} \
+	%{!?with_freetds:--disable-freetds} \
+	%{!?with_interbase:--disable-interbase} \
 	--disable-lago \
-	%{!?without_mdbtools:--disable-mdbtools} \
-	%{!?without_msql:--disable-msql} \
-	%{!?without_odbc:--disable-odbc} \
-	%{!?without_oracle:--disable-oracle} \
-	%{!?without_postgresql:--disable-postgresql} \
-	%{!?without_sqlite:--disable-sqlite} \
-	%{!?without_sybase:--disable-sybase} \
-	%{!?without_java:--disable-java} \
-	%{!?without_tcl:--disable-tcl} \
-	%{!?without_ruby:--disable-ruby} \
-	%{!?without_zope:--disable-zope} \
+	%{!?with_mdbtools:--disable-mdbtools} \
+	%{!?with_msql:--disable-msql} \
+	%{!?with_odbc:--disable-odbc} \
+	%{!?with_oracle:--disable-oracle} \
+	%{!?with_postgresql:--disable-postgresql} \
+	%{!?with_sqlite:--disable-sqlite} \
+	%{!?with_sybase:--disable-sybase} \
+	%{!?with_java:--disable-java} \
+	%{!?with_tcl:--disable-tcl} \
+	%{!?with_ruby:--disable-ruby} \
+	%{!?with_zope:--disable-zope} \
 	--%{!?with_python:dis}%{?with_python:en}able-python \
 %if %{with mysql}
 	--enable-mysql \
@@ -315,6 +327,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/sqlrelay
 cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf
 mv $RPM_BUILD_ROOT{/etc/sysconfig/sqlrelay,%{_sysconfdir}/sqlrelay.instances}
 touch $RPM_BUILD_ROOT%{_localstatedir}/sqlrelay/sockseq
+install -d $RPM_BUILD_ROOT/var/run/sqlrelay
 
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,Cursor}}/.packlist
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf.example
@@ -374,6 +387,7 @@ fi
 %{_mandir}/man8/sqlr-scaler.8*
 %{_mandir}/man8/sqlr-start.8*
 %{_mandir}/man8/sqlr-stop.8*
+%dir %attr(775,root,sqlrelay) /var/run/sqlrelay
 
 %files devel
 %defattr(644,root,root,755)
@@ -420,10 +434,63 @@ fi
 %{_libdir}/libmysql*sqlrelay.a
 %{_libdir}/libmysql*sqlrelay.la
 
+%if %{with db2}
+%files db2
+%defattr(644,root,root,755)
+%endif
+
+%if %{with freetds}
+%files freetds
+%defattr(644,root,root,755)
+%endif
+
+%if %{with interbase}
+%files interbase
+%defattr(644,root,root,755)
+%endif
+
+%if %{with mdbtools}
+%files mdbtools
+%defattr(644,root,root,755)
+%endif
+
+%if %{with msql}
+%files msql
+%defattr(644,root,root,755)
+%endif
+
 %if %{with mysql}
 %files mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/sqlr-connection-mysql*
+%endif
+
+%if %{with odbc}
+%files odbc
+%defattr(644,root,root,755)
+%endif
+
+%if %{with oracle}
+%files oracle7
+%defattr(644,root,root,755)
+
+%files oracle8
+%defattr(644,root,root,755)
+%endif
+
+%if %{with postgresql}
+%files postgresql
+%defattr(644,root,root,755)
+%endif
+
+%if %{with sqlite}
+%files sqlite
+%defattr(644,root,root,755)
+%endif
+
+%if %{with sybase}
+%files sybase
+%defattr(644,root,root,755)
 %endif
 
 %if %{with perl}
@@ -462,6 +529,14 @@ fi
 %{py_sitedir}/SQLRelay/PySQLRDB.py[co]
 %{py_sitedir}/SQLRelay/__init__.py[co]
 %{_mandir}/man1/query.py.1*
+%endif
+
+%if %{with ruby}
+%files -n ruby-DBD-SQLRelay
+%defattr(644,root,root,755)
+%dir %{ruby_sitelibdir}/DBD/SQLRelay
+%{ruby_sitelibdir}/DBD/SQLRelay/SQLRelay.rb
+%attr(755,root,root) %{ruby_sitearchdir}/sqlrelay.so
 %endif
 
 %files doc
