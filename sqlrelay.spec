@@ -1,31 +1,55 @@
 #
 # Conditional build:
-%bcond_without	perl	# Don't build Perl api
-%bcond_without	python	# Don't build Python api
-%bcond_without	php	# Don't build PHP api
-%bcond_without	mysql	# Don't build MySQL connection
+# Database options:
+# ================
+%bcond_with	db2	# DB2 connection
+%bcond_with	freetds	# FreeTDS connection
+%bcond_with	interbase	# Interbase connection
+%bcond_with	mdbtools	# MDB Tools connection
+%bcond_with	msql	# mSQL connection
+%bcond_without	mysql	# MySQL connection
+%bcond_with	odbc	# ODBC connection
+%bcond_with	oracle	# Oracle connection
+%bcond_with	postgresql	# PostgreSQL connection
+%bcond_with	sqlite	# SQLite connection
+%bcond_with	sybase	# Sybase connection
+#
+# Language options:
+# ================
+%bcond_with	java	# Java API
+%bcond_without	perl	# Perl API
+%bcond_without	php	# PHP API
+%bcond_without	python	# Python API
+%bcond_without	ruby	# Ruby API
+%bcond_without	tcl		# TCL API
+%bcond_without	zope	# Zope API
 #
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.23
+Release:	0.27
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
 # Source0-md5:	4628782233e548a1436c6149f913fd89
 Source1:	%{name}.init
+Source2:	%{name}.conf
 Patch0:		%{name}-perl.patch
 Patch1:		%{name}-ac.patch
 URL:		http://sqlrelay.sourceforge.net
+%{?with_ruby:BuildRequires: ruby-devel}
+%{?with_tcl:BuildRequires: tcl-devel}
 BuildRequires:	autoconf
 BuildRequires:	libtool
 %{?with_mysql:BuildRequires:	mysql-devel}
 BuildRequires:	ncurses-devel
 %{?with_php:BuildRequires:	php-devel >= 4:5:0}
-%{?with_python:BuildRequires:	python}
+%{?with_postgresql:BuildRequires: postgresql-devel}
+%{?with_python:BuildRequires:	python-devel}
 BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rudiments-devel >= 0.28.1
+%{?with_odbc:BuildRequires: unixODBC-devel}
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
@@ -97,6 +121,47 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 Drop in replacement library allowing MySQL clients to use SQL Relay
 instead.
 
+%package db2
+Summary:	SQL Relay connection daemon for IBM DB2
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description db2
+SQL Relay connection daemon for IBM DB2.
+
+%package freetds
+Summary:	SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server)
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description freetds
+SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server).
+
+%package interbase
+Summary:	SQL Relay connection daemon for Interbase
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description interbase
+SQL Relay connection daemon for Interbase.
+
+%package mdbtools
+Summary:	SQL Relay connection daemon for MDB Tools (Microsoft Access)
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description mdbtools
+SQL Relay connection daemon for MDB Tools (Microsoft Access).
+
+
+%package msql
+Summary:	SQL Relay connection daemon for mSQL
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description msql
+SQL Relay connection daemon for mSQL.
+
 %package mysql
 Summary:	SQL Relay connection daemon for MySQL
 Group:		Applications/Databases
@@ -104,6 +169,54 @@ Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 SQL Relay connection daemon for MySQL.
+
+%package odbc
+Summary:	SQL Relay connection daemon for ODBC
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description odbc
+SQL Relay connection daemon for ODBC.
+
+%package oracle7
+Summary:	SQL Relay connection daemon for Oracle 7
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description oracle7
+SQL Relay connection daemon for Oracle 7.
+
+%package oracle8
+Summary:	SQL Relay connection daemon for Oracle 8
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description oracle8
+SQL Relay connection daemon for Oracle 8.
+
+%package postgresql
+Summary:	SQL Relay connection daemon for PostgreSQL
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description postgresql
+SQL Relay connection daemon for PostgreSQL.
+
+%package sqlite
+Summary:	SQL Relay connection daemon for SQLite
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description sqlite
+SQL Relay connection daemon for SQLite.
+
+%package sybase
+Summary:	SQL Relay connection daemon for Sybase
+Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
+
+%description sybase
+SQL Relay connection daemon for Sybase.
 
 %package -n perl-SQLRelay
 Summary:	SQL Relay modules for Perl
@@ -150,21 +263,21 @@ Documentation for SQLRelay.
 %{__autoheader}
 %configure \
 	--disable-gtk \
-	--disable-db2 \
-	--disable-freetds \
-	--disable-interbase \
+	%{!?without_db2:--disable-db2} \
+	%{!?without_freetds:--disable-freetds} \
+	%{!?without_interbase:--disable-interbase} \
 	--disable-lago \
-	--disable-mdbtools \
-	--disable-msql \
-	--disable-odbc \
-	--disable-oracle \
-	--disable-postgresql \
-	--disable-sqlite \
-	--disable-sybase \
-	--disable-java \
-	--disable-tcl \
-	--disable-ruby \
-	--disable-zope \
+	%{!?without_mdbtools:--disable-mdbtools} \
+	%{!?without_msql:--disable-msql} \
+	%{!?without_odbc:--disable-odbc} \
+	%{!?without_oracle:--disable-oracle} \
+	%{!?without_postgresql:--disable-postgresql} \
+	%{!?without_sqlite:--disable-sqlite} \
+	%{!?without_sybase:--disable-sybase} \
+	%{!?without_java:--disable-java} \
+	%{!?without_tcl:--disable-tcl} \
+	%{!?without_ruby:--disable-ruby} \
+	%{!?without_zope:--disable-zope} \
 	--%{!?with_python:dis}%{?with_python:en}able-python \
 %if %{with mysql}
 	--enable-mysql \
@@ -199,10 +312,12 @@ rm -rf $RPM_BUILD_ROOT
 %py_postclean %{py_sitedir}/SQLRelay
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/sqlrelay
-mv $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf{.example,}
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf
 mv $RPM_BUILD_ROOT{/etc/sysconfig/sqlrelay,%{_sysconfdir}/sqlrelay.instances}
+touch $RPM_BUILD_ROOT%{_localstatedir}/sqlrelay/sockseq
 
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,Cursor}}/.packlist
+rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf.example
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -249,6 +364,7 @@ fi
 %dir %{_localstatedir}/sqlrelay
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/tmp
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/debug
+%attr(660,root,sqlrelay) %ghost %{_localstatedir}/sqlrelay/sockseq
 %{_mandir}/man1/fields.1*
 %{_mandir}/man1/sqlr-config-gtk.1*
 %{_mandir}/man8/sqlr-cachemanager.8*
