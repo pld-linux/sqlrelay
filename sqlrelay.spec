@@ -1,11 +1,12 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.1
+Release:	0.4
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
 # Source0-md5:	4628782233e548a1436c6149f913fd89
+Source1:	%{name}.init
 URL:		http://sqlrelay.sourceforge.net
 BuildRequires:	mysql-devel
 BuildRequires:	php-devel >= 4:5:0
@@ -128,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/sqlrelay
+mv $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf{.example,}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -136,8 +140,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%config %attr(600,root,root) %{_sysconfdir}/sqlrelay.conf.example
+%doc %{_docdir}/%{name}
+%config %attr(600,root,root) %{_sysconfdir}/sqlrelay.conf
 %config %attr(600,root,root) %{_sysconfdir}/sqlrelay.dtd
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/sqlrelay
+%attr(754,root,root) /etc/rc.d/init.d/sqlrelay
 %attr(755,root,root) %{_bindir}/sqlr-cachemanager*
 %attr(755,root,root) %{_bindir}/sqlr-listener*
 %attr(755,root,root) %{_bindir}/sqlr-scaler*
@@ -148,10 +155,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsqlrutil*
 /var/sqlrelay/tmp
 /var/sqlrelay/debug
-%{_datadir}
-%{_mandir}
-%attr(754,root,root) /etc/rc.d/init.d/sqlrelay
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/sqlrelay
+%{_mandir}/man1/fields.1*
+%{_mandir}/man1/query.py.1*
+%{_mandir}/man1/sqlr-config-gtk.1*
+%{_mandir}/man8/sqlr-cachemanager.8*
+%{_mandir}/man8/sqlr-connection.8*
+%{_mandir}/man8/sqlr-ipclean.8*
+%{_mandir}/man8/sqlr-listener.8*
+%{_mandir}/man8/sqlr-scaler.8*
+%{_mandir}/man8/sqlr-start.8*
+%{_mandir}/man8/sqlr-stop.8*
 
 %files devel
 %defattr(644,root,root,755)
@@ -166,6 +179,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/sqlr-export
 %attr(755,root,root) %{_bindir}/sqlr-import
 %attr(755,root,root) %{_bindir}/sqlrsh
+%{_mandir}/man1/query.1*
+%{_mandir}/man1/sqlrsh.1*
 
 %files client-runtime
 %defattr(644,root,root,755)
@@ -208,10 +223,14 @@ rm -rf $RPM_BUILD_ROOT
 %{perl_sitearch}/SQLRelay/Cursor.pm
 %{perl_sitearch}/auto/SQLRelay/Connection
 %{perl_sitearch}/auto/SQLRelay/Cursor
+%{_mandir}/man3/DBD::SQLRelay.3pm*
+%{_mandir}/man3/SQLRelay::Connection.3pm*
+%{_mandir}/man3/SQLRelay::Cursor.3pm*
 
 %files php
 %defattr(644,root,root,755)
 %attr(755,root,root) %{phpextdir}/sql_relay.so
+%{php_pear_dir}/DB/sqlrelay.php
 
 %files python
 %defattr(644,root,root,755)
