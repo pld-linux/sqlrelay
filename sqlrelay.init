@@ -4,109 +4,86 @@
 #
 # chkconfig: 345 85 15
 # description: Persistent database connection system.
+#
+# $Id$
 
-# Source function library.
-success() {
-	echo success
-}
-failure() {
-	echo failure
-}
-passed() {
-	echo passed
-}
-if [ -r "/etc/init.d/functions" ]; then
-	. /etc/init.d/functions
-else
-	if [ -r "/etc/rc.d/init.d/functions" ]; then
-		. /etc/rc.d/init.d/functions
-	fi
-fi
+# Source function library
+. /etc/rc.d/init.d/functions
 
-# Get config.
-test -f /etc/sysconfig/network && . /etc/sysconfig/network
+# Get network config
+. /etc/sysconfig/network
 
 # Check that networking is up.
-[ ${NETWORKING} = "yes" ] || exit 0
-
-prefix=${DESTDIR}/usr
-sysconfdir=${DESTDIR}/etc
-
-[ -f ${sysconfdir}/sqlrelay.conf ] || exit 1
+if is_yes "${NETWORKING}"; then
+	if [ ! -f /var/lock/subsys/network -a "$1" != stop -a "$1" != status ]; then
+		msg_network_down sqlrelay
+		exit 1
+	fi
+else
+	exit 0
+fi
 
 RETVAL=0
 
-# Add appropriate bin/lib paths
-if [ ${prefix} != "/usr" ]; then
-	export PATH=$PATH:${prefix}/bin
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${prefix}/lib
-fi
+start() {
+	# Check if the service is already running?
+	if [ ! -f /var/lock/subsys/sqlrelay ]; then
+		msg_starting "SQL Relay"; echo ""
+		launched=0
+		for connid in `grep -v ^# /etc/sysconfig/sqlrelay`; do
+			show "Launching instance with id '%s':" ${connid}
+			sqlr-start -id ${connid} 0<&- 1>&- 2>&-
+			RETVAL=$?
+			[ $RETVAL -eq 0 ] && ok || fail
+			launched=1
+		done
+		[ "$launched" -eq 1 ] || started
+		echo
 
-start(){
-    echo -n $"Starting SQL Relay: "
-    if [ -r /etc/sysconfig/sqlrelay ]; then
-        launched=0
-        for connid in `grep -v ^# /etc/sysconfig/sqlrelay`; do
-            echo
-            echo -n $"Launching instance with id '${connid}':"
-            sqlr-start -id ${connid} 0<&- 1>&- 2>&-
-            RETVAL=$?
-            [ $RETVAL -eq 0 ] && success || failure
-            launched=1
-        done
-        [ "$launched" -eq 1 ] || passed
-        echo
-    else
-        failure
-    fi
-    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/sqlrelay
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/sqlrelay
+	else
+		msg_already_running sqlrelay
+	fi
+	return $RETVAL
+}
+
+stop() {
+	if [ -f /var/lock/subsys/sqlrelay ]; then
+		msg_stopping "SQL Relay"
+		sqlr-stop >/dev/null 2>&1
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && ok || fail
+		[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/sqlrelay
+	else
+		msg_not_running sqlrelay
+	fi
     return $RETVAL
 }
 
-stop(){
-    echo -n $"Stopping SQL Relay: "
-    sqlr-stop >/dev/null 2>&1
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] && success || failure
-    echo
-    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/sqlrelay
-    return $RETVAL
-}
-
-restart(){
-    stop
+restart() {
+	if [ -f /var/lock/subsys/sqlrelay ]; then
+		stop
+	fi
     start
 }
 
-condrestart(){
-    [ -e /var/lock/subsys/sqlrelay ] && restart
-    return 0
-}
-
-
 # See how we were called.
 case "$1" in
-    start)
+start)
 	start
 	;;
-    stop)
+stop)
 	stop
 	;;
-    status)
+status)
 	status sqlr-listener
 	;;
-    restart)
+restart)
 	restart
 	;;
-    reload)
-	restart
-	;;
-    condrestart)
-	condrestart
-	;;
-    *)
-	echo "Usage: sqlrelay {start|stop|status|restart|condrestart}"
-	RETVAL=1
+*)
+	msg_usage "$0 {start|stop|restart|status}"
+	exit 3
 esac
 
 exit $RETVAL
