@@ -28,7 +28,7 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.33
+Release:	0.36
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -156,7 +156,6 @@ Requires:	%{name} = %{version}-%{release}
 %description mdbtools
 SQL Relay connection daemon for MDB Tools (Microsoft Access).
 
-
 %package msql
 Summary:	SQL Relay connection daemon for mSQL
 Group:		Applications/Databases
@@ -221,13 +220,13 @@ Requires:	%{name} = %{version}-%{release}
 %description sybase
 SQL Relay connection daemon for Sybase.
 
-%package -n perl-SQLRelay
+%package -n perl-DBD-SQLRelay
 Summary:	SQL Relay modules for Perl
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	perl-DBI
 
-%description -n perl-SQLRelay
+%description -n perl-DBD-SQLRelay
 SQL Relay modules for Perl.
 
 %package -n php-%{name}
@@ -254,6 +253,14 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n ruby-DBD-SQLRelay
 SQL Relay modules for Ruby.
+
+%package gtk
+Summary:	SQL Relay GUI configuration tool
+Group:		Applications/Databases
+Requires:	%{name}-client-runtime = %{version}-%{release}
+
+%description gtk
+GTK-based configuration tool for SQL Relay.
 
 %package doc
 Summary:	Documentation for SQLRelay
@@ -494,7 +501,7 @@ fi
 %endif
 
 %if %{with perl}
-%files -n perl-SQLRelay
+%files -n perl-DBD-SQLRelay
 %defattr(644,root,root,755)
 %dir %{perl_vendorarch}/SQLRelay
 %{perl_vendorarch}/SQLRelay/Connection.pm
@@ -537,6 +544,12 @@ fi
 %dir %{ruby_sitelibdir}/DBD/SQLRelay
 %{ruby_sitelibdir}/DBD/SQLRelay/SQLRelay.rb
 %attr(755,root,root) %{ruby_sitearchdir}/sqlrelay.so
+%endif
+
+%if %{with gtk}
+%files gtk
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/sqlr-config-gtk
 %endif
 
 %files doc
