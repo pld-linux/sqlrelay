@@ -1,0 +1,10 @@
+--- sqlrelay-0.37.1/src/listener/sqlrlistener.C~	2006-08-05 06:04:55.000000000 +0300
++++ sqlrelay-0.37.1/src/listener/sqlrlistener.C	2006-09-12 21:25:28.326120483 +0300
+@@ -494,6 +494,7 @@
+ 				continue;
+ 			}
+ 			clientsockin[index]=new inetserversocket();
++			listening=clientsockin[index]->reuseAddresses();
+ 			listening=clientsockin[index]->listen(addresses[index],
+ 								port,15);
+ 			if (listening) {
