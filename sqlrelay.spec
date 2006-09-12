@@ -8,7 +8,7 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.20
+Release:	0.21
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -26,7 +26,6 @@ BuildRequires:	ncurses-devel
 BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rudiments-devel >= 0.28.1
-Requires(post,postun):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
@@ -58,6 +57,7 @@ database access.
 %package devel
 Summary:	Development libraries for SQL Relay
 Group:		Development/Libraries
+Requires:	%{name}-client-devel = %{version}-%{release}
 
 %description devel
 Static libraries for SQL Relay.
@@ -65,6 +65,7 @@ Static libraries for SQL Relay.
 %package clients
 Summary:	Command line applications for accessing databases through SQL Relay
 Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
 
 %description clients
 Command line applications for accessing databases through SQL Relay.
@@ -72,6 +73,7 @@ Command line applications for accessing databases through SQL Relay.
 %package client-runtime
 Summary:	Runtime libraries for SQL Relay clients
 Group:		Libraries
+Requires(post,postun):	/sbin/ldconfig
 
 %description client-runtime
 Runtime dependencies for SQL Relay clients
@@ -79,6 +81,7 @@ Runtime dependencies for SQL Relay clients
 %package client-devel
 Summary:	Development files for developing programs in C/C++ that use SQL Relay
 Group:		Development/Libraries
+Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description client-devel
 Header files and static libraries to use for developing programs in
@@ -202,7 +205,7 @@ rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre
+%pre client-runtime
 %groupadd -g 176 sqlrelay
 %useradd -u 176 -c "SQL Relay" -s /bin/false -r -d %{_localstatedir}/sqlrelay -g sqlrelay sqlrelay
 
@@ -217,7 +220,9 @@ if [ "$1" = 0 ]; then
 	/sbin/chkconfig --del sqlrelay
 fi
 
-%postun
+%postun -p /sbin/ldconfig
+
+%postun client-runtime
 /sbin/ldconfig
 if [ "$1" = "0" ]; then
 	%userremove sqlrelay
