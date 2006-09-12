@@ -1,0 +1,38 @@
+--- sqlrelay-0.37.1/configure.in~	2006-08-05 05:22:05.000000000 +0300
++++ sqlrelay-0.37.1/configure.in	2006-09-12 12:57:47.703548904 +0300
+@@ -67,7 +67,7 @@
+ 	MYSQLPATH="")
+ AC_ARG_ENABLE(mysql,
+ 	[  --disable-mysql               Don't build MySQL connection],
+-	ENABLE_MYSQL="",
++	ENABLE_MYSQL="$withval",
+ 	ENABLE_MYSQL="yes")
+ AC_ARG_ENABLE(mysql-rpath,
+ 	[  --enable-mysql-rpath          Use -rpath when building MySQL connection],
+@@ -210,7 +210,7 @@
+ 	POD2MAN="")
+ AC_ARG_ENABLE(perl,
+ 	[  --disable-perl                Don't build Perl api],
+-	ENABLE_PERL="",
++	ENABLE_PERL="$withval",
+ 	ENABLE_PERL="yes")
+ AC_ARG_WITH(perl-site-arch,
+ 	[  --with-perl-site-arch         Override Perl's built-in PERLSITEARCH variable (location to install binary perl modules)],
+@@ -238,7 +238,7 @@
+ 	PYTHONPATH="")
+ AC_ARG_ENABLE(python,
+ 	[  --disable-python              Don't build Python api],
+-	ENABLE_PYTHON="",
++	ENABLE_PYTHON="$withval",
+ 	ENABLE_PYTHON="yes")
+ AC_ARG_ENABLE(python-rpath,
+ 	[  --enable-python-rpath         Use -rpath when linking the Python library against the SQL Relay client library],
+@@ -294,7 +294,7 @@
+ 	PHPPATH="")
+ AC_ARG_ENABLE(php,
+ 	[  --disable-php                 Don't build PHP api],
+-	ENABLE_PHP="",
++	ENABLE_PHP="$withval",
+ 	ENABLE_PHP="yes")
+ AC_ARG_ENABLE(php-rpath,
+ 	[  --enable-php-rpath            Use -rpath when linking the PHP library against the SQL Relay client library],
