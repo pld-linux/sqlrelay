@@ -1,0 +1,53 @@
+--- sqlrelay-0.37.1/src/common/defaults.h~	2006-01-12 05:16:34.000000000 +0200
++++ sqlrelay-0.37.1/src/common/defaults.h	2006-09-12 17:25:14.553291920 +0300
+@@ -3,16 +3,16 @@
+ #define DEFAULT_ID "defaultid"
+ 	// default id for listeners/connections
+ 
+-#define DEFAULT_ADDRESSES "0.0.0.0"
++#define DEFAULT_ADDRESSES "127.0.0.1"
+ 	// default addresses for listeners/connections
+ 
+ #define DEFAULT_PORT "9000"
+ 	// default port to listen on
+ 
+-#define DEFAULT_SOCKET "/tmp/sqlrelay.socket"
++#define DEFAULT_SOCKET "/var/run/sqlrelay/sqlrelay.socket"
+ 	// default unix socket to listen on
+ 
+-#define DEFAULT_DBASE "oracle8"
++#define DEFAULT_DBASE "mysql"
+ 	// default database type
+ 
+ #define DEFAULT_CONNECTIONS "1"
+@@ -38,10 +38,10 @@
+ #define DEFAULT_SESSIONTIMEOUT "60"
+ 	// default session timeout
+ 
+-#define DEFAULT_RUNASUSER "nobody"
++#define DEFAULT_RUNASUSER "sqlrelay"
+ 	// default user to run as
+ 
+-#define DEFAULT_RUNASGROUP "nobody"
++#define DEFAULT_RUNASGROUP "sqlrelay"
+ 	// default group to run as
+ 
+ #define DEFAULT_CURSORS "5"
+@@ -84,7 +84,7 @@
+ #define DEFAULT_CONNECTIONID "defaultid"
+ 	// default id for an individual set of connections
+ 
+-#define DEFAULT_CONNECTSTRING "user=scott;password=tiger;"
++#define DEFAULT_CONNECTSTRING "user=mysql;password=;"
+ 	// default connect string
+ 
+ #define DEFAULT_METRIC "1"
+@@ -117,7 +117,7 @@
+ #define DEFAULT_ROUTER_PORT "9000"
+ 	// default router port
+ 
+-#define DEFAULT_ROUTER_SOCKET "/tmp/sqlrelay.socket"
++#define DEFAULT_ROUTER_SOCKET "/var/run/sqlrelay/sqlrelay.socket"
+ 	// default router socket
+ 
+ #define DEFAULT_ROUTER_USER "user"
