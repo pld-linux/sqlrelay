@@ -1,7 +1,14 @@
+#
+# Conditional build:
+%bcond_with	perl	# build Perl API
+%bcond_with	python	# build python API
+%bcond_with	php	# build PHP module
+%bcond_with	mysql	# build MySQL connector
+#
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.9
+Release:	0.12
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -12,11 +19,22 @@ URL:		http://sqlrelay.sourceforge.net
 BuildRequires:	mysql-devel
 BuildRequires:	php-devel >= 4:5:0
 BuildRequires:	python >= 1:2.3
+BuildRequires:	readline >= 4.1
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	rudiments-devel >= 0.28.1
-Requires:	readline >= 4.1
+Requires(post,postun):	/sbin/ldconfig
+Requires(post,preun):	/sbin/chkconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		phpextdir	%(php-config --extension-dir 2>/dev/null)
+%define		_localstatedir	/var/lib
 
 %description
 SQL Relay is a persistent database connection pooling, proxying and
@@ -126,19 +144,23 @@ Documentation for SQLRelay.
 	--disable-java \
 	--disable-tcl \
 	--disable-ruby \
-	--disable-zope
-	--enable-python \
-	--enable-mysql \
-	--enable-php \
+	--disable-zope \
+	--%{!?with_python:dis}%{?with_python:en}able-python \
+	--%{!?with_mysql:dis}%{?with_mysql:en}able-mysql \
+	--%{!?with_php:dis}%{?with_php:en}able-php \
+%if %{with perl}
 	--enable-perl \
+	--with-perl-site-arch=%{perl_vendorarch} \
+	--with-perl-site-lib=%{perl_vendorlib} \
+%else
+	--disable-perl \
+%endif
 
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
-	OVERRIDEPERLSITEARCH=%{perl_vendorarch} \
-	OVERRIDEPERLSITELIB=%{perl_vendorlib} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}/SQLRelay
@@ -153,8 +175,27 @@ rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%pre
+%groupadd -g 176 sqlrelay
+%useradd -u 176 -c "SQL Relay" -s /bin/false -r -d %{_localstatedir}/sqlrelay -g sqlrelay sqlrelay
+
+%post
+/sbin/ldconfig
+/sbin/chkconfig --add sqlrelay
+%service sqlrelay restart
+
+%preun
+if [ "$1" = 0 ]; then
+	%service sqlrelay stop
+	/sbin/chkconfig --del sqlrelay
+fi
+
+%postun
+/sbin/ldconfig
+if [ "$1" = "0" ]; then
+	%userremove sqlrelay
+	%groupremove sqlrelay
+fi
 
 %files
 %defattr(644,root,root,755)
@@ -170,8 +211,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libsqlrconnection*
 %attr(755,root,root) %{_libdir}/libpqsqlrelay-*.*.*.so.1.0.0
 %{_libdir}/libsqlrutil*
-/var/sqlrelay/tmp
-/var/sqlrelay/debug
+%{_localstatedir}/sqlrelay/tmp
+%{_localstatedir}/sqlrelay/debug
 %{_mandir}/man1/fields.1*
 %{_mandir}/man1/sqlr-config-gtk.1*
 %{_mandir}/man8/sqlr-cachemanager.8*
@@ -201,7 +242,7 @@ rm -rf $RPM_BUILD_ROOT
 %files client-runtime
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libsqlrclient-*.so.*
-/var/sqlrelay/cache
+%{_localstatedir}/sqlrelay/cache
 %attr(755,root,root) %{_libdir}/libsqlrclientwrapper-*.so.*
 
 %files client-devel
@@ -227,10 +268,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libmysql*sqlrelay.a
 %{_libdir}/libmysql*sqlrelay.la
 
+%if %{with mysql}
 %files mysql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/sqlr-connection-mysql*
+%endif
 
+%if %{with perl}
 %files -n perl-SQLRelay
 %defattr(644,root,root,755)
 %dir %{perl_vendorarch}/SQLRelay
@@ -248,12 +292,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/DBD::SQLRelay.3pm*
 %{_mandir}/man3/SQLRelay::Connection.3pm*
 %{_mandir}/man3/SQLRelay::Cursor.3pm*
+%endif
 
+%if %{with php}
 %files -n php-%{name}
 %defattr(644,root,root,755)
 %attr(755,root,root) %{phpextdir}/sql_relay.so
 %{php_pear_dir}/DB/sqlrelay.php
+%endif
 
+%if %{with python}
 %files -n python-%{name}
 %defattr(644,root,root,755)
 %dir %{py_sitedir}/SQLRelay
@@ -262,6 +310,7 @@ rm -rf $RPM_BUILD_ROOT
 %{py_sitedir}/SQLRelay/PySQLRDB.py[co]
 %{py_sitedir}/SQLRelay/__init__.py[co]
 %{_mandir}/man1/query.py.1*
+%endif
 
 %files doc
 %defattr(644,root,root,755)
