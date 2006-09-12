@@ -8,7 +8,7 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.13
+Release:	0.20
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -34,6 +34,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
+Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -103,8 +104,8 @@ SQL Relay connection daemon for MySQL.
 %package -n perl-SQLRelay
 Summary:	SQL Relay modules for Perl
 Group:		Development/Languages
-Requires:	perl-DBI
 Requires:	%{name}-client-runtime = %{version}-%{release}
+Requires:	perl-DBI
 
 %description -n perl-SQLRelay
 SQL Relay modules for Perl.
@@ -194,6 +195,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/sqlrelay
 mv $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf{.example,}
+mv $RPM_BUILD_ROOT{/etc/sysconfig/sqlrelay,%{_sysconfdir}/sqlrelay.instances}
 
 rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,Cursor}}/.packlist
 
@@ -224,9 +226,9 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%config %attr(600,root,root) %{_sysconfdir}/sqlrelay.conf
-%config %attr(600,root,root) %{_sysconfdir}/sqlrelay.dtd
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/sqlrelay
+%{_sysconfdir}/sqlrelay.dtd
+%config(noreplace) %verify(not md5 mtime size) %attr(640,root,sqlrelay) %{_sysconfdir}/sqlrelay.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/sqlrelay.instances
 %attr(754,root,root) /etc/rc.d/init.d/sqlrelay
 %attr(755,root,root) %{_bindir}/sqlr-cachemanager*
 %attr(755,root,root) %{_bindir}/sqlr-listener*
@@ -236,8 +238,9 @@ fi
 %{_libdir}/libsqlrconnection*
 %attr(755,root,root) %{_libdir}/libpqsqlrelay-*.*.*.so.1.0.0
 %{_libdir}/libsqlrutil*
-%{_localstatedir}/sqlrelay/tmp
-%{_localstatedir}/sqlrelay/debug
+%dir %{_localstatedir}/sqlrelay
+%attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/tmp
+%attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/debug
 %{_mandir}/man1/fields.1*
 %{_mandir}/man1/sqlr-config-gtk.1*
 %{_mandir}/man8/sqlr-cachemanager.8*
@@ -267,7 +270,7 @@ fi
 %files client-runtime
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libsqlrclient-*.so.*
-%{_localstatedir}/sqlrelay/cache
+%attr(770,root,sqlrelay) %{_localstatedir}/sqlrelay/cache
 %attr(755,root,root) %{_libdir}/libsqlrclientwrapper-*.so.*
 
 %files client-devel
