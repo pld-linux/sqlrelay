@@ -30,7 +30,7 @@ start() {
 	if [ ! -f /var/lock/subsys/sqlrelay ]; then
 		msg_starting "SQL Relay"; echo ""
 		launched=0
-		for connid in `grep -v ^# /etc/sqlrelay.instances`; do
+		for connid in `grep -v ^# /etc/sqlrelay/sqlrelay.instances`; do
 			show "Launching instance with id '%s':" ${connid}
 			sqlr-start -id ${connid} 0<&- 1>&- 2>&-
 			RETVAL=$?
