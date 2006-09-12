@@ -8,7 +8,7 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.21
+Release:	0.23
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -39,6 +39,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		phpextdir	%(php-config --extension-dir 2>/dev/null)
 %define		_localstatedir	/var/lib
+%define		_sysconfdir		/etc/%{name}
 
 %description
 SQL Relay is a persistent database connection pooling, proxying and
@@ -117,6 +118,7 @@ SQL Relay modules for Perl.
 Summary:	SQL Relay modules for PHP
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
+Requires:	php-pear-DB
 
 %description -n php-%{name}
 SQL Relay modules for PHP.
@@ -231,6 +233,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%dir %{_sysconfdir}
 %{_sysconfdir}/sqlrelay.dtd
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,sqlrelay) %{_sysconfdir}/sqlrelay.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/sqlrelay.instances
