@@ -8,7 +8,7 @@
 Summary:	Persistent database connection system
 Name:		sqlrelay
 Version:	0.37.1
-Release:	0.12
+Release:	0.13
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
@@ -86,6 +86,7 @@ C/C++ that use SQL Relay.
 %package client-mysql
 Summary:	Drop in replacement library allowing MySQL clients to use SQL Relay instead
 Group:		Libraries
+Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description client-mysql
 Drop in replacement library allowing MySQL clients to use SQL Relay
@@ -94,6 +95,7 @@ instead.
 %package mysql
 Summary:	SQL Relay connection daemon for MySQL
 Group:		Applications/Databases
+Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 SQL Relay connection daemon for MySQL.
@@ -102,6 +104,7 @@ SQL Relay connection daemon for MySQL.
 Summary:	SQL Relay modules for Perl
 Group:		Development/Languages
 Requires:	perl-DBI
+Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n perl-SQLRelay
 SQL Relay modules for Perl.
@@ -109,6 +112,7 @@ SQL Relay modules for Perl.
 %package -n php-%{name}
 Summary:	SQL Relay modules for PHP
 Group:		Development/Languages
+Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n php-%{name}
 SQL Relay modules for PHP.
@@ -116,6 +120,7 @@ SQL Relay modules for PHP.
 %package -n python-%{name}
 Summary:	SQL Relay modules for Python
 Group:		Development/Languages
+Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n python-%{name}
 SQL Relay modules for Python.
