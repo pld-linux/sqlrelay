@@ -1,31 +1,32 @@
 #
 # Conditional build:
-%bcond_without	gtk	# GTK frontend
+%bcond_without	gtk		# GTK+ frontend
 # Database options:
 # ================
-%bcond_with	db2	# DB2 connection
-%bcond_with	freetds	# FreeTDS connection
+%bcond_with	db2		# DB2 connection
+%bcond_with	freetds		# FreeTDS connection
 %bcond_with	interbase	# Interbase connection
 %bcond_with	mdbtools	# MDB Tools connection
-%bcond_with	msql	# mSQL connection
-%bcond_without	mysql	# MySQL connection
-%bcond_with	odbc	# ODBC connection
-%bcond_with	oracle	# Oracle connection
+%bcond_with	msql		# mSQL connection
+%bcond_without	mysql		# MySQL connection
+%bcond_with	odbc		# ODBC connection
+%bcond_with	oracle		# Oracle connection
 %bcond_with	postgresql	# PostgreSQL connection
-%bcond_with	sqlite	# SQLite connection
-%bcond_with	sybase	# Sybase connection
+%bcond_with	sqlite		# SQLite connection
+%bcond_with	sybase		# Sybase connection
 #
 # Language options:
 # ================
-%bcond_with	java	# Java API
-%bcond_without	perl	# Perl API
-%bcond_without	php	# PHP API
-%bcond_without	python	# Python API
-%bcond_without	ruby	# Ruby API
-%bcond_with	tcl		# TCL API
-%bcond_with	zope	# Zope API
+%bcond_with	java		# Java API
+%bcond_without	perl		# Perl API
+%bcond_without	php		# PHP API
+%bcond_without	python		# Python API
+%bcond_without	ruby		# Ruby API
+%bcond_with	tcl		# Tcl API
+%bcond_with	zope		# Zope API
 #
 Summary:	Persistent database connection system
+Summary(pl):	System sta³ego po³±czenia z baz± danych
 Name:		sqlrelay
 Version:	0.37.1
 Release:	0.36
@@ -40,26 +41,21 @@ Patch1:		%{name}-ac.patch
 Patch2:		%{name}-defaults.patch
 URL:		http://sqlrelay.sourceforge.net
 BuildRequires:	autoconf
-%{?with_gtk:BuildRequires: gtk+-devel}
+%{?with_gtk:BuildRequires:	gtk+-devel}
 BuildRequires:	libtool
 %{?with_mysql:BuildRequires:	mysql-devel}
 BuildRequires:	ncurses-devel
 %{?with_php:BuildRequires:	php-devel >= 4:5:0}
-%{?with_postgresql:BuildRequires: postgresql-devel}
+%{?with_postgresql:BuildRequires:	postgresql-devel}
 %{?with_python:BuildRequires:	python-devel}
 BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
-%{?with_ruby:BuildRequires: ruby-devel}
+%{?with_ruby:BuildRequires:	ruby-devel}
 BuildRequires:	rudiments-devel >= 0.28.1
-%{?with_tcl:BuildRequires: tcl-devel}
-%{?with_odbc:BuildRequires: unixODBC-devel}
+%{?with_tcl:BuildRequires:	tcl-devel}
+%{?with_odbc:BuildRequires:	unixODBC-devel}
+Requires(post):	/sbin/ldconfig
 Requires(post,preun):	/sbin/chkconfig
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
-Requires(pre):	/bin/id
-Requires(pre):	/usr/bin/getgid
-Requires(pre):	/usr/sbin/groupadd
-Requires(pre):	/usr/sbin/useradd
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	rc-scripts
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -82,41 +78,92 @@ accessing databases from unsupported platforms, migrating between
 databases, distributing access to replicated databases and throttling
 database access.
 
+%description -l pl
+SQL Relay to system utrzymywania, przekazywania i równowa¿enia
+obci±¿enia sta³ego po³±czenia z baz± danych dla Uniksa i Linuksa z
+obs³ug± baz danych ODBC, Oracle, MySQL, mSQL, PostgreSQL, Sybase, MS
+SQL Server, IBM DB2, Interbase, Lago i SQLite oraz API C, C++, Perla,
+Perl-DBD, Pythona, Python-DB, Zope, PHP, Ruby'ego, Javy i Tcl-a.
+Zawiera tak¿e klientów dzia³aj±cych z linii poleceñ, graficzne
+narzêdzie do konfiguracji oraz wyczerpuj±c± dokumentacjê. API
+obs³uguj± zaawansowane operacje na bazach danych, takie jak powi±zane
+zmienne, pobrania wielowierszowe, buforowanie wyników po stronie
+klienta oraz transakcje zawieszone. System ten jest idealny do
+przyspieszania aplikacji WWW opartych o bazy danych, dostêpu do baz
+danych z nieobs³ugiwanych platform, migracji miêdzy bazami danych,
+rozpraszania dostêpu do zreplikowanych baz danych oraz t³umienia
+dostêpu do baz danych.
+
 %package devel
 Summary:	Development libraries for SQL Relay
+Summary(pl):	Biblioteki programistyczne dla SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
 %description devel
 Static libraries for SQL Relay.
 
+%description devel -l pl
+Statyczne biblioteki SQL Relay.
+
 %package clients
 Summary:	Command line applications for accessing databases through SQL Relay
+Summary(pl):	Aplikacje linii poleceñ do dostêpu do baz danych poprzez SQL Relay
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description clients
 Command line applications for accessing databases through SQL Relay.
 
+%description clients -l pl
+Aplikacje linii poleceñ do dostêpu do baz danych poprzez SQL Relay.
+
 %package client-runtime
 Summary:	Runtime libraries for SQL Relay clients
+Summary(pl):	Biblioteki uruchomieniowe dla klientów SQL Relay
 Group:		Libraries
-Requires(post,postun):	/sbin/ldconfig
+Requires(postun):	/sbin/ldconfig
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
 
 %description client-runtime
-Runtime dependencies for SQL Relay clients
+Runtime dependencies for SQL Relay clients.
+
+%description client-runtime -l pl
+Biblioteki uruchomieniowe dla klientów SQL Relay.
 
 %package client-devel
 Summary:	Development files for developing programs in C/C++ that use SQL Relay
+Summary(pl):	Pliki programistyczne do tworzenia programów C/C++ u¿ywaj±cych SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description client-devel
-Header files and static libraries to use for developing programs in
-C/C++ that use SQL Relay.
+Header files to use for developing programs in C/C++ that use SQL
+Relay.
+
+%description client-devel -l pl
+Pliki nag³ówkowe do tworzenia programów w C/C++ u¿ywaj±cych SQL Relay.
+
+%package client-static
+Summary:	Static libraries for SQL Relay clients
+Summary(pl):	Statyczne biblioteki dla klientów SQL Relay
+Group:		Development/Libraries
+Requires:	%{name}-client-devel = %{version}-%{release}
+
+%package client-static
+Static libraries for SQL Relay clients.
+
+%package client-static -l pl
+Statyczne biblioteki dla klientów SQL Relay.
 
 %package client-mysql
 Summary:	Drop in replacement library allowing MySQL clients to use SQL Relay instead
+Summary(pl):	Biblioteka do podmiany pozwalaj±ca klientom MySQL u¿ywaæ SQL Relay
 Group:		Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -124,104 +171,157 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 Drop in replacement library allowing MySQL clients to use SQL Relay
 instead.
 
+%description client-mysql -l pl
+Biblioteka do podmiany pozwalaj±ca klientom MySQL u¿ywaæ SQL Relay
+zamiast bezpo¶rednio MySQL-a.
+
 %package db2
 Summary:	SQL Relay connection daemon for IBM DB2
+Summary(pl):	Demon po³±czenia SQL Relay dla IBM DB2
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description db2
 SQL Relay connection daemon for IBM DB2.
 
+%description db2 -l pl
+Demon po³±czenia SQL Relay dla IBM DB2.
+
 %package freetds
 Summary:	SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server)
+Summary(pl):	Demon po³±czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description freetds
 SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server).
 
+%description freetds -l pl
+Demon po³±czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server).
+
 %package interbase
 Summary:	SQL Relay connection daemon for Interbase
+Summary(pl):	Demon po³±czenia SQL Relay dla Interbase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description interbase
 SQL Relay connection daemon for Interbase.
 
+%description interbase -l pl
+Demon po³±czenia SQL Relay dla Interbase.
+
 %package mdbtools
 Summary:	SQL Relay connection daemon for MDB Tools (Microsoft Access)
+Summary(pl):	Demon po³±czenia SQL Relay dla MDB Tools (Microsoft Access)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description mdbtools
 SQL Relay connection daemon for MDB Tools (Microsoft Access).
 
+%description mdbtools -l pl
+Demon po³±czenia SQL Relay dla MDB Tools (Microsoft Access).
+
 %package msql
 Summary:	SQL Relay connection daemon for mSQL
+Summary(pl):	Demon po³±czenia SQL Relay dla mSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description msql
 SQL Relay connection daemon for mSQL.
 
+%description msql -l pl
+Demon po³±czenia SQL Relay dla mSQL-a.
+
 %package mysql
 Summary:	SQL Relay connection daemon for MySQL
+Summary(pl):	Demon po³±czenia SQL Relay dla MySQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 SQL Relay connection daemon for MySQL.
 
+%description mysql -l pl
+Demon po³±czenia SQL Relay dla MySQL-a.
+
 %package odbc
 Summary:	SQL Relay connection daemon for ODBC
+Summary(pl):	Demon po³±czenia SQL Relay dla ODBC
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description odbc
 SQL Relay connection daemon for ODBC.
 
+%description odbc -l pl
+Demon po³±czenia SQL Relay dla ODBC.
+
 %package oracle7
 Summary:	SQL Relay connection daemon for Oracle 7
+Summary(pl):	Demon po³±czenia SQL Relay dla Oracle 7
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description oracle7
 SQL Relay connection daemon for Oracle 7.
 
+%description oracle7 -l pl
+Demon po³±czenia SQL Relay dla Oracle 7.
+
 %package oracle8
 Summary:	SQL Relay connection daemon for Oracle 8
+Summary(pl):	Demon po³±czenia SQL Relay dla Oracle 8
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description oracle8
 SQL Relay connection daemon for Oracle 8.
 
+%description oracle8 -l pl
+Demon po³±czenia SQL Relay dla Oracle 8.
+
 %package postgresql
 Summary:	SQL Relay connection daemon for PostgreSQL
+Summary(pl):	Demon po³±czenia SQL Relay dla PostgreSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description postgresql
 SQL Relay connection daemon for PostgreSQL.
 
+%description postgresql -l pl
+Demon po³±czenia SQL Relay dla PostgreSQL-a.
+
 %package sqlite
 Summary:	SQL Relay connection daemon for SQLite
+Summary(pl):	Demon po³±czenia SQL Relay dla SQLite
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description sqlite
 SQL Relay connection daemon for SQLite.
 
+%description sqlite -l pl
+Demon po³±czenia SQL Relay dla SQLite.
+
 %package sybase
 Summary:	SQL Relay connection daemon for Sybase
+Summary(pl):	Demon po³±czenia SQL Relay dla Sybase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description sybase
 SQL Relay connection daemon for Sybase.
 
+%description sybase -l pl
+Demon po³±czenia SQL Relay dla Sybase.
+
 %package -n perl-DBD-SQLRelay
 Summary:	SQL Relay modules for Perl
+Summary(pl):	Modu³y SQL Relay dla Perla
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	perl-DBI
@@ -229,8 +329,12 @@ Requires:	perl-DBI
 %description -n perl-DBD-SQLRelay
 SQL Relay modules for Perl.
 
+%description -n perl-DBD-SQLRelay -l pl
+Modu³y SQL Relay dla Perla.
+
 %package -n php-%{name}
 Summary:	SQL Relay modules for PHP
+Summary(pl):	Modu³y SQL Relay dla PHP
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	php-pear-DB
@@ -238,36 +342,55 @@ Requires:	php-pear-DB
 %description -n php-%{name}
 SQL Relay modules for PHP.
 
+%description -n php-%{name} -l pl
+Modu³y SQL Relay dla PHP.
+
 %package -n python-%{name}
 Summary:	SQL Relay modules for Python
+Summary(pl):	Modu³y SQL Relay dla Pythona
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n python-%{name}
 SQL Relay modules for Python.
 
+%description -n python-%{name} -l pl
+Modu³y SQL Relay dla Pythona.
+
 %package -n ruby-DBD-SQLRelay
 Summary:	SQL Relay modules for Ruby
+Summary(pl):	Modu³y SQL Relay dla jêzyka Ruby
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n ruby-DBD-SQLRelay
 SQL Relay modules for Ruby.
 
+%description -n ruby-DBD-SQLRelay -l pl
+Modu³y SQL Relay dla jêzyka Ruby.
+
 %package gtk
 Summary:	SQL Relay GUI configuration tool
+Summary(pl):	Graficzne narzêdzie konfiguracyjne dla SQL Relay
 Group:		Applications/Databases
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description gtk
 GTK-based configuration tool for SQL Relay.
 
+%description gtk -l pl
+Graficzne narzêdzie konfiguracyjne dla SQL Relay.
+
 %package doc
-Summary:	Documentation for SQLRelay
+Summary:	Documentation for SQL Relay
+Summary(pl):	Dokumentacja dla SQL Relay
 Group:		Documentation
 
 %description doc
-Documentation for SQLRelay.
+Documentation for SQL Relay.
+
+%description doc -l pl
+Dokumentacja dla SQL Relay.
 
 %prep
 %setup -q
@@ -342,10 +465,6 @@ rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf.example
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre client-runtime
-%groupadd -g 176 sqlrelay
-%useradd -u 176 -c "SQL Relay" -s /bin/false -r -d %{_localstatedir}/sqlrelay -g sqlrelay sqlrelay
-
 %post
 /sbin/ldconfig
 /sbin/chkconfig --add sqlrelay
@@ -359,12 +478,21 @@ fi
 
 %postun -p /sbin/ldconfig
 
+%pre client-runtime
+%groupadd -g 176 sqlrelay
+%useradd -u 176 -c "SQL Relay" -s /bin/false -r -d %{_localstatedir}/sqlrelay -g sqlrelay sqlrelay
+
+%post client-runtime -p /sbin/ldconfig
+
 %postun client-runtime
 /sbin/ldconfig
 if [ "$1" = "0" ]; then
 	%userremove sqlrelay
 	%groupremove sqlrelay
 fi
+
+%post	client-mysql -p /sbin/ldconfig
+%postun	client-mysql -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -379,9 +507,9 @@ fi
 %attr(755,root,root) %{_bindir}/sqlr-start*
 %attr(755,root,root) %{_bindir}/sqlr-stop
 %{_libdir}/libsqlrconnection*
+# XXX: shouldn't it be -client-postgresql?
 %attr(755,root,root) %{_libdir}/libpqsqlrelay-*.*.*.so.1.0.0
 %{_libdir}/libsqlrutil*
-%dir %{_localstatedir}/sqlrelay
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/tmp
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/debug
 %attr(660,root,sqlrelay) %ghost %{_localstatedir}/sqlrelay/sockseq
@@ -398,6 +526,9 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
+# XXX: headers? separate -static?
+# isn't it some PostgreSQL driver?
+%attr(755,root,root) %{_libdir}/libpqsqlrelay.so
 %{_libdir}/libpqsqlrelay.a
 %{_libdir}/libpqsqlrelay.la
 
@@ -414,30 +545,36 @@ fi
 
 %files client-runtime
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libsqlrclient-*.so.*
+%attr(755,root,root) %{_libdir}/libsqlrclient-*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libsqlrclientwrapper-*.so.*.*.*
+%dir %{_localstatedir}/sqlrelay
 %attr(770,root,sqlrelay) %{_localstatedir}/sqlrelay/cache
-%attr(755,root,root) %{_libdir}/libsqlrclientwrapper-*.so.*
 
 %files client-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/sqlrclient-config
-%{_includedir}/sqlrelay/sqlrclient.h
-%{_includedir}/sqlrelay/private
-%{_libdir}/libsqlrclient.a
-%{_libdir}/libsqlrclient.la
-%{_libdir}/libsqlrclient.so
-%{_pkgconfigdir}/sqlrelay-c++.pc
 %attr(755,root,root) %{_bindir}/sqlrclientwrapper-config
-%{_includedir}/sqlrelay/sqlrclientwrapper.h
-%{_libdir}/libsqlrclientwrapper.a
+%attr(755,root,root) %{_libdir}/libsqlrclient.so
+%attr(755,root,root) %{_libdir}/libsqlrclientwrapper.so
+%{_libdir}/libsqlrclient.la
 %{_libdir}/libsqlrclientwrapper.la
-%{_libdir}/libsqlrclientwrapper.so
+%dir %{_includedir}/sqlrelay
+%{_includedir}/sqlrelay/private
+%{_includedir}/sqlrelay/sqlrclient.h
+%{_includedir}/sqlrelay/sqlrclientwrapper.h
 %{_pkgconfigdir}/sqlrelay-c.pc
+%{_pkgconfigdir}/sqlrelay-c++.pc
+
+%files client-static
+%defattr(644,root,root,755)
+%{_libdir}/libsqlrclient.a
+%{_libdir}/libsqlrclientwrapper.a
 
 %files client-mysql
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libmysql*sqlrelay-*.so.*
-%{_libdir}/libmysql*sqlrelay.so
+%attr(755,root,root) %{_libdir}/libmysql*sqlrelay-*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libmysql*sqlrelay.so
+# XXX: kill or separate -devel, -static?
 %{_libdir}/libmysql*sqlrelay.a
 %{_libdir}/libmysql*sqlrelay.la
 
