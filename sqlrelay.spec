@@ -155,10 +155,10 @@ Summary(pl):	Statyczne biblioteki dla klientów SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
-%package client-static
+%description client-static
 Static libraries for SQL Relay clients.
 
-%package client-static -l pl
+%description client-static -l pl
 Statyczne biblioteki dla klientów SQL Relay.
 
 %package client-mysql
