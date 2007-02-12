@@ -26,7 +26,7 @@
 %bcond_with	zope		# Zope API
 #
 Summary:	Persistent database connection system
-Summary(pl):	System sta³ego po³±czenia z baz± danych
+Summary(pl.UTF-8):   System staÅ‚ego poÅ‚Ä…czenia z bazÄ… danych
 Name:		sqlrelay
 Version:	0.37.1
 Release:	0.36
@@ -78,49 +78,49 @@ accessing databases from unsupported platforms, migrating between
 databases, distributing access to replicated databases and throttling
 database access.
 
-%description -l pl
-SQL Relay to system utrzymywania, przekazywania i równowa¿enia
-obci±¿enia sta³ego po³±czenia z baz± danych dla Uniksa i Linuksa z
-obs³ug± baz danych ODBC, Oracle, MySQL, mSQL, PostgreSQL, Sybase, MS
+%description -l pl.UTF-8
+SQL Relay to system utrzymywania, przekazywania i rÃ³wnowaÅ¼enia
+obciÄ…Å¼enia staÅ‚ego poÅ‚Ä…czenia z bazÄ… danych dla Uniksa i Linuksa z
+obsÅ‚ugÄ… baz danych ODBC, Oracle, MySQL, mSQL, PostgreSQL, Sybase, MS
 SQL Server, IBM DB2, Interbase, Lago i SQLite oraz API C, C++, Perla,
 Perl-DBD, Pythona, Python-DB, Zope, PHP, Ruby'ego, Javy i Tcl-a.
-Zawiera tak¿e klientów dzia³aj±cych z linii poleceñ, graficzne
-narzêdzie do konfiguracji oraz wyczerpuj±c± dokumentacjê. API
-obs³uguj± zaawansowane operacje na bazach danych, takie jak powi±zane
-zmienne, pobrania wielowierszowe, buforowanie wyników po stronie
+Zawiera takÅ¼e klientÃ³w dziaÅ‚ajÄ…cych z linii poleceÅ„, graficzne
+narzÄ™dzie do konfiguracji oraz wyczerpujÄ…cÄ… dokumentacjÄ™. API
+obsÅ‚ugujÄ… zaawansowane operacje na bazach danych, takie jak powiÄ…zane
+zmienne, pobrania wielowierszowe, buforowanie wynikÃ³w po stronie
 klienta oraz transakcje zawieszone. System ten jest idealny do
-przyspieszania aplikacji WWW opartych o bazy danych, dostêpu do baz
-danych z nieobs³ugiwanych platform, migracji miêdzy bazami danych,
-rozpraszania dostêpu do zreplikowanych baz danych oraz t³umienia
-dostêpu do baz danych.
+przyspieszania aplikacji WWW opartych o bazy danych, dostÄ™pu do baz
+danych z nieobsÅ‚ugiwanych platform, migracji miÄ™dzy bazami danych,
+rozpraszania dostÄ™pu do zreplikowanych baz danych oraz tÅ‚umienia
+dostÄ™pu do baz danych.
 
 %package devel
 Summary:	Development libraries for SQL Relay
-Summary(pl):	Biblioteki programistyczne dla SQL Relay
+Summary(pl.UTF-8):   Biblioteki programistyczne dla SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
 %description devel
 Static libraries for SQL Relay.
 
-%description devel -l pl
+%description devel -l pl.UTF-8
 Statyczne biblioteki SQL Relay.
 
 %package clients
 Summary:	Command line applications for accessing databases through SQL Relay
-Summary(pl):	Aplikacje linii poleceñ do dostêpu do baz danych poprzez SQL Relay
+Summary(pl.UTF-8):   Aplikacje linii poleceÅ„ do dostÄ™pu do baz danych poprzez SQL Relay
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description clients
 Command line applications for accessing databases through SQL Relay.
 
-%description clients -l pl
-Aplikacje linii poleceñ do dostêpu do baz danych poprzez SQL Relay.
+%description clients -l pl.UTF-8
+Aplikacje linii poleceÅ„ do dostÄ™pu do baz danych poprzez SQL Relay.
 
 %package client-runtime
 Summary:	Runtime libraries for SQL Relay clients
-Summary(pl):	Biblioteki uruchomieniowe dla klientów SQL Relay
+Summary(pl.UTF-8):   Biblioteki uruchomieniowe dla klientÃ³w SQL Relay
 Group:		Libraries
 Requires(postun):	/sbin/ldconfig
 Requires(postun):	/usr/sbin/groupdel
@@ -133,12 +133,12 @@ Requires(pre):	/usr/sbin/useradd
 %description client-runtime
 Runtime dependencies for SQL Relay clients.
 
-%description client-runtime -l pl
-Biblioteki uruchomieniowe dla klientów SQL Relay.
+%description client-runtime -l pl.UTF-8
+Biblioteki uruchomieniowe dla klientÃ³w SQL Relay.
 
 %package client-devel
 Summary:	Development files for developing programs in C/C++ that use SQL Relay
-Summary(pl):	Pliki programistyczne do tworzenia programów C/C++ u¿ywaj±cych SQL Relay
+Summary(pl.UTF-8):   Pliki programistyczne do tworzenia programÃ³w C/C++ uÅ¼ywajÄ…cych SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -146,24 +146,24 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 Header files to use for developing programs in C/C++ that use SQL
 Relay.
 
-%description client-devel -l pl
-Pliki nag³ówkowe do tworzenia programów w C/C++ u¿ywaj±cych SQL Relay.
+%description client-devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe do tworzenia programÃ³w w C/C++ uÅ¼ywajÄ…cych SQL Relay.
 
 %package client-static
 Summary:	Static libraries for SQL Relay clients
-Summary(pl):	Statyczne biblioteki dla klientów SQL Relay
+Summary(pl.UTF-8):   Statyczne biblioteki dla klientÃ³w SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
 %description client-static
 Static libraries for SQL Relay clients.
 
-%description client-static -l pl
-Statyczne biblioteki dla klientów SQL Relay.
+%description client-static -l pl.UTF-8
+Statyczne biblioteki dla klientÃ³w SQL Relay.
 
 %package client-mysql
 Summary:	Drop in replacement library allowing MySQL clients to use SQL Relay instead
-Summary(pl):	Biblioteka do podmiany pozwalaj±ca klientom MySQL u¿ywaæ SQL Relay
+Summary(pl.UTF-8):   Biblioteka do podmiany pozwalajÄ…ca klientom MySQL uÅ¼ywaÄ‡ SQL Relay
 Group:		Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -171,157 +171,157 @@ Requires:	%{name}-client-runtime = %{version}-%{release}
 Drop in replacement library allowing MySQL clients to use SQL Relay
 instead.
 
-%description client-mysql -l pl
-Biblioteka do podmiany pozwalaj±ca klientom MySQL u¿ywaæ SQL Relay
-zamiast bezpo¶rednio MySQL-a.
+%description client-mysql -l pl.UTF-8
+Biblioteka do podmiany pozwalajÄ…ca klientom MySQL uÅ¼ywaÄ‡ SQL Relay
+zamiast bezpoÅ›rednio MySQL-a.
 
 %package db2
 Summary:	SQL Relay connection daemon for IBM DB2
-Summary(pl):	Demon po³±czenia SQL Relay dla IBM DB2
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla IBM DB2
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description db2
 SQL Relay connection daemon for IBM DB2.
 
-%description db2 -l pl
-Demon po³±czenia SQL Relay dla IBM DB2.
+%description db2 -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla IBM DB2.
 
 %package freetds
 Summary:	SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server)
-Summary(pl):	Demon po³±czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server)
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description freetds
 SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server).
 
-%description freetds -l pl
-Demon po³±czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server).
+%description freetds -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla FreeTDS (Sybase i MS SQL Server).
 
 %package interbase
 Summary:	SQL Relay connection daemon for Interbase
-Summary(pl):	Demon po³±czenia SQL Relay dla Interbase
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla Interbase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description interbase
 SQL Relay connection daemon for Interbase.
 
-%description interbase -l pl
-Demon po³±czenia SQL Relay dla Interbase.
+%description interbase -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla Interbase.
 
 %package mdbtools
 Summary:	SQL Relay connection daemon for MDB Tools (Microsoft Access)
-Summary(pl):	Demon po³±czenia SQL Relay dla MDB Tools (Microsoft Access)
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla MDB Tools (Microsoft Access)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description mdbtools
 SQL Relay connection daemon for MDB Tools (Microsoft Access).
 
-%description mdbtools -l pl
-Demon po³±czenia SQL Relay dla MDB Tools (Microsoft Access).
+%description mdbtools -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla MDB Tools (Microsoft Access).
 
 %package msql
 Summary:	SQL Relay connection daemon for mSQL
-Summary(pl):	Demon po³±czenia SQL Relay dla mSQL-a
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla mSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description msql
 SQL Relay connection daemon for mSQL.
 
-%description msql -l pl
-Demon po³±czenia SQL Relay dla mSQL-a.
+%description msql -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla mSQL-a.
 
 %package mysql
 Summary:	SQL Relay connection daemon for MySQL
-Summary(pl):	Demon po³±czenia SQL Relay dla MySQL-a
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla MySQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description mysql
 SQL Relay connection daemon for MySQL.
 
-%description mysql -l pl
-Demon po³±czenia SQL Relay dla MySQL-a.
+%description mysql -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla MySQL-a.
 
 %package odbc
 Summary:	SQL Relay connection daemon for ODBC
-Summary(pl):	Demon po³±czenia SQL Relay dla ODBC
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla ODBC
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description odbc
 SQL Relay connection daemon for ODBC.
 
-%description odbc -l pl
-Demon po³±czenia SQL Relay dla ODBC.
+%description odbc -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla ODBC.
 
 %package oracle7
 Summary:	SQL Relay connection daemon for Oracle 7
-Summary(pl):	Demon po³±czenia SQL Relay dla Oracle 7
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla Oracle 7
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description oracle7
 SQL Relay connection daemon for Oracle 7.
 
-%description oracle7 -l pl
-Demon po³±czenia SQL Relay dla Oracle 7.
+%description oracle7 -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla Oracle 7.
 
 %package oracle8
 Summary:	SQL Relay connection daemon for Oracle 8
-Summary(pl):	Demon po³±czenia SQL Relay dla Oracle 8
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla Oracle 8
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description oracle8
 SQL Relay connection daemon for Oracle 8.
 
-%description oracle8 -l pl
-Demon po³±czenia SQL Relay dla Oracle 8.
+%description oracle8 -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla Oracle 8.
 
 %package postgresql
 Summary:	SQL Relay connection daemon for PostgreSQL
-Summary(pl):	Demon po³±czenia SQL Relay dla PostgreSQL-a
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla PostgreSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description postgresql
 SQL Relay connection daemon for PostgreSQL.
 
-%description postgresql -l pl
-Demon po³±czenia SQL Relay dla PostgreSQL-a.
+%description postgresql -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla PostgreSQL-a.
 
 %package sqlite
 Summary:	SQL Relay connection daemon for SQLite
-Summary(pl):	Demon po³±czenia SQL Relay dla SQLite
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla SQLite
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description sqlite
 SQL Relay connection daemon for SQLite.
 
-%description sqlite -l pl
-Demon po³±czenia SQL Relay dla SQLite.
+%description sqlite -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla SQLite.
 
 %package sybase
 Summary:	SQL Relay connection daemon for Sybase
-Summary(pl):	Demon po³±czenia SQL Relay dla Sybase
+Summary(pl.UTF-8):   Demon poÅ‚Ä…czenia SQL Relay dla Sybase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
 %description sybase
 SQL Relay connection daemon for Sybase.
 
-%description sybase -l pl
-Demon po³±czenia SQL Relay dla Sybase.
+%description sybase -l pl.UTF-8
+Demon poÅ‚Ä…czenia SQL Relay dla Sybase.
 
 %package -n perl-DBD-SQLRelay
 Summary:	SQL Relay modules for Perl
-Summary(pl):	Modu³y SQL Relay dla Perla
+Summary(pl.UTF-8):   ModuÅ‚y SQL Relay dla Perla
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	perl-DBI
@@ -329,12 +329,12 @@ Requires:	perl-DBI
 %description -n perl-DBD-SQLRelay
 SQL Relay modules for Perl.
 
-%description -n perl-DBD-SQLRelay -l pl
-Modu³y SQL Relay dla Perla.
+%description -n perl-DBD-SQLRelay -l pl.UTF-8
+ModuÅ‚y SQL Relay dla Perla.
 
 %package -n php-%{name}
 Summary:	SQL Relay modules for PHP
-Summary(pl):	Modu³y SQL Relay dla PHP
+Summary(pl.UTF-8):   ModuÅ‚y SQL Relay dla PHP
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	php-pear-DB
@@ -342,54 +342,54 @@ Requires:	php-pear-DB
 %description -n php-%{name}
 SQL Relay modules for PHP.
 
-%description -n php-%{name} -l pl
-Modu³y SQL Relay dla PHP.
+%description -n php-%{name} -l pl.UTF-8
+ModuÅ‚y SQL Relay dla PHP.
 
 %package -n python-%{name}
 Summary:	SQL Relay modules for Python
-Summary(pl):	Modu³y SQL Relay dla Pythona
+Summary(pl.UTF-8):   ModuÅ‚y SQL Relay dla Pythona
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n python-%{name}
 SQL Relay modules for Python.
 
-%description -n python-%{name} -l pl
-Modu³y SQL Relay dla Pythona.
+%description -n python-%{name} -l pl.UTF-8
+ModuÅ‚y SQL Relay dla Pythona.
 
 %package -n ruby-DBD-SQLRelay
 Summary:	SQL Relay modules for Ruby
-Summary(pl):	Modu³y SQL Relay dla jêzyka Ruby
+Summary(pl.UTF-8):   ModuÅ‚y SQL Relay dla jÄ™zyka Ruby
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description -n ruby-DBD-SQLRelay
 SQL Relay modules for Ruby.
 
-%description -n ruby-DBD-SQLRelay -l pl
-Modu³y SQL Relay dla jêzyka Ruby.
+%description -n ruby-DBD-SQLRelay -l pl.UTF-8
+ModuÅ‚y SQL Relay dla jÄ™zyka Ruby.
 
 %package gtk
 Summary:	SQL Relay GUI configuration tool
-Summary(pl):	Graficzne narzêdzie konfiguracyjne dla SQL Relay
+Summary(pl.UTF-8):   Graficzne narzÄ™dzie konfiguracyjne dla SQL Relay
 Group:		Applications/Databases
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
 %description gtk
 GTK-based configuration tool for SQL Relay.
 
-%description gtk -l pl
-Graficzne narzêdzie konfiguracyjne dla SQL Relay.
+%description gtk -l pl.UTF-8
+Graficzne narzÄ™dzie konfiguracyjne dla SQL Relay.
 
 %package doc
 Summary:	Documentation for SQL Relay
-Summary(pl):	Dokumentacja dla SQL Relay
+Summary(pl.UTF-8):   Dokumentacja dla SQL Relay
 Group:		Documentation
 
 %description doc
 Documentation for SQL Relay.
 
-%description doc -l pl
+%description doc -l pl.UTF-8
 Dokumentacja dla SQL Relay.
 
 %prep
