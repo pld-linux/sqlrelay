@@ -26,7 +26,7 @@
 %bcond_with	zope		# Zope API
 #
 Summary:	Persistent database connection system
-Summary(pl.UTF-8):   System stałego połączenia z bazą danych
+Summary(pl.UTF-8):	System stałego połączenia z bazą danych
 Name:		sqlrelay
 Version:	0.37.1
 Release:	0.36
@@ -96,7 +96,7 @@ dostępu do baz danych.
 
 %package devel
 Summary:	Development libraries for SQL Relay
-Summary(pl.UTF-8):   Biblioteki programistyczne dla SQL Relay
+Summary(pl.UTF-8):	Biblioteki programistyczne dla SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
@@ -108,7 +108,7 @@ Statyczne biblioteki SQL Relay.
 
 %package clients
 Summary:	Command line applications for accessing databases through SQL Relay
-Summary(pl.UTF-8):   Aplikacje linii poleceń do dostępu do baz danych poprzez SQL Relay
+Summary(pl.UTF-8):	Aplikacje linii poleceń do dostępu do baz danych poprzez SQL Relay
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -120,7 +120,7 @@ Aplikacje linii poleceń do dostępu do baz danych poprzez SQL Relay.
 
 %package client-runtime
 Summary:	Runtime libraries for SQL Relay clients
-Summary(pl.UTF-8):   Biblioteki uruchomieniowe dla klientów SQL Relay
+Summary(pl.UTF-8):	Biblioteki uruchomieniowe dla klientów SQL Relay
 Group:		Libraries
 Requires(postun):	/sbin/ldconfig
 Requires(postun):	/usr/sbin/groupdel
@@ -138,7 +138,7 @@ Biblioteki uruchomieniowe dla klientów SQL Relay.
 
 %package client-devel
 Summary:	Development files for developing programs in C/C++ that use SQL Relay
-Summary(pl.UTF-8):   Pliki programistyczne do tworzenia programów C/C++ używających SQL Relay
+Summary(pl.UTF-8):	Pliki programistyczne do tworzenia programów C/C++ używających SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -151,7 +151,7 @@ Pliki nagłówkowe do tworzenia programów w C/C++ używających SQL Relay.
 
 %package client-static
 Summary:	Static libraries for SQL Relay clients
-Summary(pl.UTF-8):   Statyczne biblioteki dla klientów SQL Relay
+Summary(pl.UTF-8):	Statyczne biblioteki dla klientów SQL Relay
 Group:		Development/Libraries
 Requires:	%{name}-client-devel = %{version}-%{release}
 
@@ -163,7 +163,7 @@ Statyczne biblioteki dla klientów SQL Relay.
 
 %package client-mysql
 Summary:	Drop in replacement library allowing MySQL clients to use SQL Relay instead
-Summary(pl.UTF-8):   Biblioteka do podmiany pozwalająca klientom MySQL używać SQL Relay
+Summary(pl.UTF-8):	Biblioteka do podmiany pozwalająca klientom MySQL używać SQL Relay
 Group:		Libraries
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -177,7 +177,7 @@ zamiast bezpośrednio MySQL-a.
 
 %package db2
 Summary:	SQL Relay connection daemon for IBM DB2
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla IBM DB2
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla IBM DB2
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -189,7 +189,7 @@ Demon połączenia SQL Relay dla IBM DB2.
 
 %package freetds
 Summary:	SQL Relay connection daemon for FreeTDS (Sybase and MS SQL Server)
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla FreeTDS (Sybase i MS SQL Server)
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla FreeTDS (Sybase i MS SQL Server)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -201,7 +201,7 @@ Demon połączenia SQL Relay dla FreeTDS (Sybase i MS SQL Server).
 
 %package interbase
 Summary:	SQL Relay connection daemon for Interbase
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla Interbase
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla Interbase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -213,7 +213,7 @@ Demon połączenia SQL Relay dla Interbase.
 
 %package mdbtools
 Summary:	SQL Relay connection daemon for MDB Tools (Microsoft Access)
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla MDB Tools (Microsoft Access)
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla MDB Tools (Microsoft Access)
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -225,7 +225,7 @@ Demon połączenia SQL Relay dla MDB Tools (Microsoft Access).
 
 %package msql
 Summary:	SQL Relay connection daemon for mSQL
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla mSQL-a
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla mSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -237,7 +237,7 @@ Demon połączenia SQL Relay dla mSQL-a.
 
 %package mysql
 Summary:	SQL Relay connection daemon for MySQL
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla MySQL-a
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla MySQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -249,7 +249,7 @@ Demon połączenia SQL Relay dla MySQL-a.
 
 %package odbc
 Summary:	SQL Relay connection daemon for ODBC
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla ODBC
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla ODBC
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -261,7 +261,7 @@ Demon połączenia SQL Relay dla ODBC.
 
 %package oracle7
 Summary:	SQL Relay connection daemon for Oracle 7
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla Oracle 7
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla Oracle 7
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -273,7 +273,7 @@ Demon połączenia SQL Relay dla Oracle 7.
 
 %package oracle8
 Summary:	SQL Relay connection daemon for Oracle 8
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla Oracle 8
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla Oracle 8
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -285,7 +285,7 @@ Demon połączenia SQL Relay dla Oracle 8.
 
 %package postgresql
 Summary:	SQL Relay connection daemon for PostgreSQL
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla PostgreSQL-a
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla PostgreSQL-a
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -297,7 +297,7 @@ Demon połączenia SQL Relay dla PostgreSQL-a.
 
 %package sqlite
 Summary:	SQL Relay connection daemon for SQLite
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla SQLite
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla SQLite
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -309,7 +309,7 @@ Demon połączenia SQL Relay dla SQLite.
 
 %package sybase
 Summary:	SQL Relay connection daemon for Sybase
-Summary(pl.UTF-8):   Demon połączenia SQL Relay dla Sybase
+Summary(pl.UTF-8):	Demon połączenia SQL Relay dla Sybase
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}
 
@@ -321,7 +321,7 @@ Demon połączenia SQL Relay dla Sybase.
 
 %package -n perl-DBD-SQLRelay
 Summary:	SQL Relay modules for Perl
-Summary(pl.UTF-8):   Moduły SQL Relay dla Perla
+Summary(pl.UTF-8):	Moduły SQL Relay dla Perla
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	perl-DBI
@@ -334,7 +334,7 @@ Moduły SQL Relay dla Perla.
 
 %package -n php-%{name}
 Summary:	SQL Relay modules for PHP
-Summary(pl.UTF-8):   Moduły SQL Relay dla PHP
+Summary(pl.UTF-8):	Moduły SQL Relay dla PHP
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 Requires:	php-pear-DB
@@ -347,7 +347,7 @@ Moduły SQL Relay dla PHP.
 
 %package -n python-%{name}
 Summary:	SQL Relay modules for Python
-Summary(pl.UTF-8):   Moduły SQL Relay dla Pythona
+Summary(pl.UTF-8):	Moduły SQL Relay dla Pythona
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -359,7 +359,7 @@ Moduły SQL Relay dla Pythona.
 
 %package -n ruby-DBD-SQLRelay
 Summary:	SQL Relay modules for Ruby
-Summary(pl.UTF-8):   Moduły SQL Relay dla języka Ruby
+Summary(pl.UTF-8):	Moduły SQL Relay dla języka Ruby
 Group:		Development/Languages
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -371,7 +371,7 @@ Moduły SQL Relay dla języka Ruby.
 
 %package gtk
 Summary:	SQL Relay GUI configuration tool
-Summary(pl.UTF-8):   Graficzne narzędzie konfiguracyjne dla SQL Relay
+Summary(pl.UTF-8):	Graficzne narzędzie konfiguracyjne dla SQL Relay
 Group:		Applications/Databases
 Requires:	%{name}-client-runtime = %{version}-%{release}
 
@@ -383,7 +383,7 @@ Graficzne narzędzie konfiguracyjne dla SQL Relay.
 
 %package doc
 Summary:	Documentation for SQL Relay
-Summary(pl.UTF-8):   Dokumentacja dla SQL Relay
+Summary(pl.UTF-8):	Dokumentacja dla SQL Relay
 Group:		Documentation
 
 %description doc
