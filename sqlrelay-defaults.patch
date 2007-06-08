@@ -1,5 +1,5 @@
---- sqlrelay-0.37.1/src/common/defaults.h~	2006-01-12 05:16:34.000000000 +0200
-+++ sqlrelay-0.37.1/src/common/defaults.h	2006-09-12 17:25:14.553291920 +0300
+--- sqlrelay-0.38/src/common/defaults.h	2006-07-09 05:31:53.000000000 +0300
++++ sqlrelay-0.38.new/src/common/defaults.h	2007-06-09 00:46:17.950663538 +0300
 @@ -3,16 +3,16 @@
  #define DEFAULT_ID "defaultid"
  	// default id for listeners/connections
@@ -43,11 +43,11 @@
  
  #define DEFAULT_METRIC "1"
 @@ -117,7 +117,7 @@
- #define DEFAULT_ROUTER_PORT "9000"
+ #define DEFAULT_ROUTER_PORT "0"
  	// default router port
  
--#define DEFAULT_ROUTER_SOCKET "/tmp/sqlrelay.socket"
+-#define DEFAULT_ROUTER_SOCKET ""
 +#define DEFAULT_ROUTER_SOCKET "/var/run/sqlrelay/sqlrelay.socket"
  	// default router socket
  
- #define DEFAULT_ROUTER_USER "user"
+ #define DEFAULT_ROUTER_USER ""
