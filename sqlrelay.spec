@@ -28,15 +28,14 @@
 Summary:	Persistent database connection system
 Summary(pl.UTF-8):	System stałego połączenia z bazą danych
 Name:		sqlrelay
-Version:	0.37.1
-Release:	0.37
+Version:	0.38
+Release:	0.1
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
-# Source0-md5:	4628782233e548a1436c6149f913fd89
+# Source0-md5:	93ce290a7f17b9e06e65c41fa47a2724
 Source1:	%{name}.init
 Source2:	%{name}.conf
-Patch0:		%{name}-perl.patch
 Patch1:		%{name}-ac.patch
 Patch2:		%{name}-defaults.patch
 Patch3:		%{name}-reuseaddr.patch
@@ -395,7 +394,6 @@ Dokumentacja dla SQL Relay.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -444,7 +442,7 @@ Dokumentacja dla SQL Relay.
 	--disable-perl \
 %endif
 
-%{__make}
+%{__make} -j1
 
 %install
 rm -rf $RPM_BUILD_ROOT
