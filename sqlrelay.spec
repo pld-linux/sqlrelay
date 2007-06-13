@@ -508,9 +508,9 @@ fi
 %attr(755,root,root) %{_bindir}/sqlr-start*
 %attr(755,root,root) %{_bindir}/sqlr-status*
 %attr(755,root,root) %{_bindir}/sqlr-stop
-%attr(755,root,root) %{_libdir}/libsqlrconnection_debug-%{version}.so.1.0.0
-%attr(755,root,root) %{_libdir}/libsqlrconnection-%{version}.so.1.0.0
-%attr(755,root,root) %{_libdir}/libsqlrutil-%{version}.so.1.0.0
+%attr(755,root,root) %{_libdir}/libsqlrconnection-%{version}.so.*.*.*
+%attr(755,root,root) %{_libdir}/libsqlrconnection_debug-%{version}.so.*.*.*
+%attr(755,root,root) %{_libdir}/libsqlrutil-%{version}.so.*.*.*
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/tmp
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/debug
 %attr(660,root,sqlrelay) %ghost %{_localstatedir}/sqlrelay/sockseq
@@ -528,13 +528,16 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libsqlrconnection-%{version}.so
+%attr(755,root,root) %{_libdir}/libsqlrconnection_debug-%{version}.so
+%attr(755,root,root) %{_libdir}/libsqlrutil-%{version}.so
+%{_libdir}/libsqlrconnection_debug.la
+%{_libdir}/libsqlrconnection.la
+%{_libdir}/libsqlrutil.la
 # XXX -static
 %{_libdir}/libsqlrconnection.a
-%{_libdir}/libsqlrconnection.la
 %{_libdir}/libsqlrconnection_debug.a
-%{_libdir}/libsqlrconnection_debug.la
 %{_libdir}/libsqlrutil.a
-%{_libdir}/libsqlrutil.la
 
 %files clients
 %defattr(644,root,root,755)
