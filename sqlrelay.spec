@@ -11,7 +11,7 @@
 %bcond_without	mysql		# MySQL connection
 %bcond_with	odbc		# ODBC connection
 %bcond_with	oracle		# Oracle connection
-%bcond_with	postgresql	# PostgreSQL connection
+%bcond_without	postgresql	# PostgreSQL connection
 %bcond_with	sqlite		# SQLite connection
 %bcond_with	sybase		# Sybase connection
 #
@@ -20,7 +20,7 @@
 %bcond_with	java		# Java API
 %bcond_without	perl		# Perl API
 %bcond_without	php		# PHP API
-%bcond_without	python		# Python API
+%bcond_with	python		# Python API
 %bcond_without	ruby		# Ruby API
 %bcond_with	tcl		# Tcl API
 %bcond_with	zope		# Zope API
@@ -502,18 +502,20 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/sqlrelay.instances
 %attr(754,root,root) /etc/rc.d/init.d/sqlrelay
 %attr(755,root,root) %{_bindir}/sqlr-cachemanager*
+%attr(755,root,root) %{_bindir}/sqlr-connection-router*
 %attr(755,root,root) %{_bindir}/sqlr-listener*
 %attr(755,root,root) %{_bindir}/sqlr-scaler*
 %attr(755,root,root) %{_bindir}/sqlr-start*
+%attr(755,root,root) %{_bindir}/sqlr-status*
 %attr(755,root,root) %{_bindir}/sqlr-stop
-%{_libdir}/libsqlrconnection*
-# XXX: shouldn't it be -client-postgresql?
-%attr(755,root,root) %{_libdir}/libpqsqlrelay-*.*.*.so.1.0.0
-%{_libdir}/libsqlrutil*
+%attr(755,root,root) %{_libdir}/libsqlrconnection_debug-%{version}.so.1.0.0
+%attr(755,root,root) %{_libdir}/libsqlrconnection-%{version}.so.1.0.0
+%attr(755,root,root) %{_libdir}/libsqlrutil-%{version}.so.1.0.0
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/tmp
 %attr(775,root,sqlrelay) %{_localstatedir}/sqlrelay/debug
 %attr(660,root,sqlrelay) %ghost %{_localstatedir}/sqlrelay/sockseq
 %{_mandir}/man1/fields.1*
+%{_mandir}/man1/query.py.1*
 %{_mandir}/man1/sqlr-config-gtk.1*
 %{_mandir}/man8/sqlr-cachemanager.8*
 %{_mandir}/man8/sqlr-connection.8*
@@ -526,11 +528,13 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-# XXX: headers? separate -static?
-# isn't it some PostgreSQL driver?
-%attr(755,root,root) %{_libdir}/libpqsqlrelay.so
-%{_libdir}/libpqsqlrelay.a
-%{_libdir}/libpqsqlrelay.la
+# XXX -static
+%{_libdir}/libsqlrconnection.a
+%{_libdir}/libsqlrconnection.la
+%{_libdir}/libsqlrconnection_debug.a
+%{_libdir}/libsqlrconnection_debug.la
+%{_libdir}/libsqlrutil.a
+%{_libdir}/libsqlrutil.la
 
 %files clients
 %defattr(644,root,root,755)
@@ -625,6 +629,11 @@ fi
 %if %{with postgresql}
 %files postgresql
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libpqsqlrelay-%{version}.so.1.0.0
+# XXX: devel/headers? separate -static?
+%attr(755,root,root) %{_libdir}/libpqsqlrelay.so
+%{_libdir}/libpqsqlrelay.a
+%{_libdir}/libpqsqlrelay.la
 %endif
 
 %if %{with sqlite}
@@ -646,10 +655,9 @@ fi
 %dir %{perl_vendorarch}/auto/SQLRelay/Connection
 %{perl_vendorarch}/auto/SQLRelay/Connection/Connection.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/SQLRelay/Connection/Connection.so
-%dir %{perl_vendorarch}/auto/SQLRelay/Cursor
-%{perl_vendorarch}/auto/SQLRelay/Cursor/Cursor.bs
 %dir %{perl_vendorarch}/auto/SQLRelay
 %dir %{perl_vendorarch}/auto/SQLRelay/Cursor
+%{perl_vendorarch}/auto/SQLRelay/Cursor/Cursor.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/SQLRelay/Cursor/Cursor.so
 %{perl_vendorlib}/DBD/SQLRelay.pm
 %{_mandir}/man3/DBD::SQLRelay.3pm*
