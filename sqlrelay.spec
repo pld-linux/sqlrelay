@@ -459,8 +459,9 @@ mv $RPM_BUILD_ROOT{/etc/sysconfig/sqlrelay,%{_sysconfdir}/sqlrelay.instances}
 touch $RPM_BUILD_ROOT%{_localstatedir}/sqlrelay/sockseq
 install -d $RPM_BUILD_ROOT/var/run/sqlrelay
 
-rm -f $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,Cursor}}/.packlist
-rm -f $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf.example
+rm $RPM_BUILD_ROOT%{perl_vendorarch}/auto/{DBD/SQLRelay,SQLRelay/{Connection,Cursor}}/.packlist
+rm $RPM_BUILD_ROOT%{_sysconfdir}/sqlrelay.conf.example
+rm $RPM_BUILD_ROOT%{_datadir}/examples/sqlrelay.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -496,6 +497,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
+%doc etc/sqlrelay.conf.example
 %dir %{_sysconfdir}
 %{_sysconfdir}/sqlrelay.dtd
 %config(noreplace) %verify(not md5 mtime size) %attr(640,root,sqlrelay) %{_sysconfdir}/sqlrelay.conf
@@ -528,9 +530,6 @@ fi
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libsqlrconnection-%{version}.so
-%attr(755,root,root) %{_libdir}/libsqlrconnection_debug-%{version}.so
-%attr(755,root,root) %{_libdir}/libsqlrutil-%{version}.so
 %{_libdir}/libsqlrconnection_debug.la
 %{_libdir}/libsqlrconnection.la
 %{_libdir}/libsqlrutil.la
@@ -632,6 +631,8 @@ fi
 %if %{with postgresql}
 %files postgresql
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/sqlr-connection-postgresql
+%attr(755,root,root) %{_bindir}/sqlr-connection-postgresql-debug
 %attr(755,root,root) %{_libdir}/libpqsqlrelay-%{version}.so.1.0.0
 # XXX: devel/headers? separate -static?
 %attr(755,root,root) %{_libdir}/libpqsqlrelay.so
