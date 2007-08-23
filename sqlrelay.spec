@@ -5,7 +5,7 @@
 # ================
 %bcond_with	db2		# DB2 connection
 %bcond_with	freetds		# FreeTDS connection
-%bcond_with	interbase	# Interbase connection
+%bcond_without	interbase	# Interbase connection
 %bcond_with	mdbtools	# MDB Tools connection
 %bcond_with	msql		# mSQL connection
 %bcond_without	mysql		# MySQL connection
@@ -28,12 +28,12 @@
 Summary:	Persistent database connection system
 Summary(pl.UTF-8):	System stałego połączenia z bazą danych
 Name:		sqlrelay
-Version:	0.38
-Release:	1
+Version:	0.39.2
+Release:	0.1
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
-# Source0-md5:	93ce290a7f17b9e06e65c41fa47a2724
+# Source0-md5:	f41e2f8814383a455b2aba58fb3d8a85
 Source1:	%{name}.init
 Source2:	%{name}.conf
 Patch1:		%{name}-ac.patch
@@ -597,6 +597,8 @@ fi
 %if %{with interbase}
 %files interbase
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/sqlr-connection-firebird
+%attr(755,root,root) %{_bindir}/sqlr-connection-firebird-debug
 %endif
 
 %if %{with mdbtools}
