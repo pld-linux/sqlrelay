@@ -28,12 +28,12 @@
 Summary:	Persistent database connection system
 Summary(pl.UTF-8):	System stałego połączenia z bazą danych
 Name:		sqlrelay
-Version:	0.39.3
+Version:	0.39.4
 Release:	1
 License:	GPL/LGPL and Others
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/sqlrelay/%{name}-%{version}.tar.gz
-# Source0-md5:	67c49140116de48baaf46aff8d889501
+# Source0-md5:	c55cf4bfe3f2851c31e319896c65aa89
 Source1:	%{name}.init
 Source2:	%{name}.conf
 Patch1:		%{name}-ac.patch
