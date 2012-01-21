@@ -11,6 +11,7 @@
 %bcond_without	mysql		# MySQL connection
 %bcond_with	odbc		# ODBC connection
 %bcond_with	oracle		# Oracle connection
+%bcond_with	instantclient	# Use InstantClient to build Oracle connection
 %bcond_without	postgresql	# PostgreSQL connection
 %bcond_with	sqlite		# SQLite connection
 %bcond_with	sybase		# Sybase connection
@@ -413,6 +414,7 @@ Dokumentacja dla SQL Relay.
 	%{!?with_msql:--disable-msql} \
 	%{!?with_odbc:--disable-odbc} \
 	%{!?with_oracle:--disable-oracle} \
+	%{?with_instantclient:--with-oracle-instantclient-prefix=%{_prefix}} \
 	%{!?with_postgresql:--disable-postgresql} \
 	%{!?with_sqlite:--disable-sqlite} \
 	%{!?with_sybase:--disable-sybase} \
