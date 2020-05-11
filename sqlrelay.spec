@@ -12,7 +12,7 @@
 %bcond_with	odbc		# ODBC connection
 %bcond_with	oracle		# Oracle connection
 %bcond_with	instantclient	# Use InstantClient to build Oracle connection
-%bcond_without	postgresql	# PostgreSQL connection
+%bcond_without	pgsql		# PostgreSQL connection
 %bcond_with	sqlite		# SQLite connection
 %bcond_with	sybase		# Sybase connection
 #
@@ -46,8 +46,8 @@ BuildRequires:	autoconf
 BuildRequires:	libtool
 %{?with_mysql:BuildRequires:	mysql-devel}
 BuildRequires:	ncurses-devel
-%{?with_php:BuildRequires:	php-devel >= 4:5:0}
-%{?with_postgresql:BuildRequires:	postgresql-devel}
+%{?with_php:BuildRequires:	php-devel >= 4:5.0}
+%{?with_pgsql:BuildRequires:	postgresql-devel}
 %{?with_python:BuildRequires:	python-devel}
 BuildRequires:	readline-devel >= 4.1
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -415,7 +415,7 @@ Dokumentacja dla SQL Relay.
 	%{!?with_odbc:--disable-odbc} \
 	%{!?with_oracle:--disable-oracle} \
 	%{?with_instantclient:--with-oracle-instantclient-prefix=%{_prefix}} \
-	%{!?with_postgresql:--disable-postgresql} \
+	%{!?with_pgsql:--disable-postgresql} \
 	%{!?with_sqlite:--disable-sqlite} \
 	%{!?with_sybase:--disable-sybase} \
 	%{!?with_java:--disable-java} \
@@ -632,7 +632,7 @@ fi
 %defattr(644,root,root,755)
 %endif
 
-%if %{with postgresql}
+%if %{with pgsql}
 %files postgresql
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/sqlr-connection-postgresql
